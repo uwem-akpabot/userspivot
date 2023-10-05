@@ -1,12 +1,14 @@
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .models import School, Sesssion, Term, Classs, Subject
 from .serializers import SchoolSerializer, SesssionSerializer, TermSerializer, ClasssSerializer, SubjectSerializer
+from rest_framework.permissions import IsAuthenticated
 
 """
 Session
 """
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def sesssion(request):
     if request.method == 'GET':
         ses = Sesssion.objects.all()
