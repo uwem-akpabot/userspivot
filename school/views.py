@@ -1,12 +1,51 @@
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .models import School, Sesssion, Term, Classs, Subject
+from .models import Sesssion, Term, School, Classs, Subject
 from .serializers import SchoolSerializer, SesssionSerializer, TermSerializer, ClasssSerializer, SubjectSerializer
+from rest_framework.mixins import (
+    CreateModelMixin, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+)
+from rest_framework.viewsets import GenericViewSet
 from rest_framework.permissions import IsAuthenticated
 
+class SesssionViewSet(GenericViewSet,  # generic view functionality
+        CreateModelMixin,  # handles POSTs
+        RetrieveModelMixin,  # handles GETs for 1 Company
+        UpdateModelMixin,  # handles PUTs and PATCHes
+        ListModelMixin):  # handles GETs for many Companies
+
+    serializer_class = SesssionSerializer
+    queryset = Sesssion.objects.all()
+
+class TermViewSet(GenericViewSet,  # generic view functionality
+        CreateModelMixin,  # handles POSTs
+        RetrieveModelMixin,  # handles GETs for 1 Company
+        UpdateModelMixin,  # handles PUTs and PATCHes
+        ListModelMixin):  # handles GETs for many Companies
+
+    serializer_class = TermSerializer
+    queryset = Term.objects.all()
+
+class SchoolViewSet(GenericViewSet,  # generic view functionality
+        CreateModelMixin,  # handles POSTs
+        RetrieveModelMixin,  # handles GETs for 1 Company
+        UpdateModelMixin,  # handles PUTs and PATCHes
+        ListModelMixin):  # handles GETs for many Companies
+
+    serializer_class = SchoolSerializer
+    queryset = School.objects.all()
+
+class ClasssViewSet(GenericViewSet,  # generic view functionality
+        CreateModelMixin,  # handles POSTs
+        RetrieveModelMixin,  # handles GETs for 1 Company
+        UpdateModelMixin,  # handles PUTs and PATCHes
+        ListModelMixin):  # handles GETs for many Companies
+
+    serializer_class = ClasssSerializer
+    queryset = Classs.objects.all()
+
 """
-Session
-"""
+# Session
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 @permission_classes([IsAuthenticated])
 def sesssion(request):
@@ -51,9 +90,7 @@ def sesssion(request):
         obj.delete()
         return Response({'message': 'Session deleted'})
 
-"""
-Term
-"""
+# Term
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def term(request):
     if request.method == 'GET':
@@ -97,9 +134,7 @@ def term(request):
         obj.delete()
         return Response({'message': 'Term deleted'})
     
-"""
-School
-"""
+# School
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def school(request):
     if request.method == 'GET':
@@ -143,9 +178,7 @@ def school(request):
         obj.delete()
         return Response({'message': 'School deleted'})
     
-"""
-Class
-"""
+# Class
 @api_view(['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])
 def classs(request):
     if request.method == 'GET':
@@ -188,3 +221,5 @@ def classs(request):
         obj = Classs.objects.get(id = data['id'])
         obj.delete()
         return Response({'message': 'Class deleted'})
+    
+"""
